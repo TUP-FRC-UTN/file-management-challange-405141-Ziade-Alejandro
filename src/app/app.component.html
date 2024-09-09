@@ -1,1 +1,26 @@
-add code here!!
+<div class="container">
+    <h3>Archivos</h3>
+    <button class="btn btn-danger">delete</button>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Fecha</th>
+                <th scope="col">Dueños</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (item of files; track $index) {
+            <tr>
+                <th ><input type="checkbox" (click)="logCheck(item)"></th>
+                <td>{{item.name}}</td>
+                <td>{{item.creation | date}}</td>
+                <td>@for (owner of item.owners; track $index) {
+                <img [src]="owner.avatarUrl" [alt]="owner.name" class="img-fluid thumb">    
+                }</td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>
