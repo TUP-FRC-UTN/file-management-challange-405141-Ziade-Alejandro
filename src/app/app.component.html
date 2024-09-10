@@ -1,7 +1,11 @@
 <div class="container">
     <h3>Archivos</h3>
-    <button class="btn btn-danger">delete</button>
-    <table class="table">
+    <select class="form-select" [(ngModel)]="selectedAction" (change)="resetSelect()">
+        <option value='' class="bg-primary" >Action</option>
+        <option value="add">Add</option>
+        <option class="bg-danger" value="delete">Delete</option>
+      </select>
+    <table class="table" id="list">
         <thead>
             <tr>
                 <th scope="col">#</th>
@@ -13,7 +17,7 @@
         <tbody>
             @for (item of files; track $index) {
             <tr>
-                <th ><input type="checkbox" (click)="logCheck(item)"></th>
+                <th ><input type="checkbox" [checked]="selected.includes(item)" (change)="logCheck($index)"></th>
                 <td>{{item.name}}</td>
                 <td>{{item.creation | date}}</td>
                 <td>@for (owner of item.owners; track $index) {
