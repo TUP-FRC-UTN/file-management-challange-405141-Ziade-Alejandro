@@ -1,10 +1,10 @@
 <div class="container">
     <h3>Archivos</h3>
     <select class="form-select" [(ngModel)]="selectedAction" (change)="resetSelect()">
-        <option value='' class="bg-primary" >Action</option>
+        <option value='' disabled selected>Action</option>
         <option value="add">Add</option>
         <option class="bg-danger" value="delete">Delete</option>
-      </select>
+    </select>
     <table class="table" id="list">
         <thead>
             <tr>
@@ -17,14 +17,25 @@
         <tbody>
             @for (item of files; track $index) {
             <tr>
-                <th ><input type="checkbox" [checked]="selected.includes(item)" (change)="logCheck($index)"></th>
-                <td>{{item.name}}</td>
+                <th><input type="checkbox" [checked]="selected.includes(item)" (change)="logCheck($index)"></th>
+                <td [title]="item.name">
+                    {{item.name.length>10? (item.name | slice:0:10) + '...' : item.name}}
+                </td>
                 <td>{{item.creation | date}}</td>
-                <td>@for (owner of item.owners; track $index) {
-                <img [src]="owner.avatarUrl" [alt]="owner.name" class="img-fluid thumb">    
-                }</td>
+                <td>
+                    @for (owner of item.owners.slice(0,3); track $index) {
+                    <img [src]="owner.avatarUrl" [alt]="owner.name" class="img-fluid thumb">
+                    }
+                    @if(item.owners.length>3){
+                    <span class="extra-circle">+ {{item.owners.length-3}}</span>
+                    }
+
+                </td>
             </tr>
             }
         </tbody>
     </table>
+    @if(showForm){
+        <div>hello world</div>
+    }
 </div>

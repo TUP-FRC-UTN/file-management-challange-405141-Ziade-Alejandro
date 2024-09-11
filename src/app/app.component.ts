@@ -3,14 +3,13 @@ import { RouterOutlet } from '@angular/router';
 
 import { FileItem, FileType } from '../models/file.item.model';
 import { FILE_LIST } from '../data/file.storage';
-import { DatePipe } from '@angular/common';
-import { retry } from 'rxjs';
+import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, DatePipe, FormsModule],
+  imports: [RouterOutlet, DatePipe, FormsModule, CommonModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
@@ -18,6 +17,7 @@ export class AppComponent {
   files: FileItem[] = FILE_LIST;
   selected: FileItem[] = [];
   selectedAction: string = '';
+  showForm:boolean=false
 
   ngOnInit() {
     this.sorting();
@@ -54,17 +54,33 @@ export class AppComponent {
   }
 
   dlete() {
-    this.selected.forEach((element) => {
-      for (let index = 0; index < this.files.length; index++) {
-        if (this.files[index] === element) {
-          this.files = this.files.filter((a) => a !== this.files[index]);
-          console.log('found one');
-          console.log(this.files[index]);
-        }
+    if (this.selected.length > 1) {
+      if (
+        confirm(`esta seguro que quiere borrar ${this.selected.length} itemps?`)
+      ) {
+        this.selected.forEach((element) => {
+          for (let index = 0; index < this.files.length; index++) {
+            if (this.files[index] === element) {
+              this.files = this.files.filter((a) => a !== this.files[index]);
+              console.log(this.files[index]);
+            }
+          }
+        });
+        console.log(this.files);
+        this.selected = [];
       }
-    });
-    console.log(this.files);
-    this.selected = [];
+    } else {
+      this.selected.forEach((element) => {
+        for (let index = 0; index < this.files.length; index++) {
+          if (this.files[index] === element) {
+            this.files = this.files.filter((a) => a !== this.files[index]);
+            console.log(this.files[index]);
+          }
+        }
+      });
+      console.log(this.files);
+      this.selected = [];
+    }
   }
 
   resetSelect(): void {
@@ -73,9 +89,16 @@ export class AppComponent {
     if (this.selectedAction === 'delete') {
       this.dlete();
     } else if (this.selectedAction === 'add') {
-      //nothing for now
+      
+      this.showForm=true
     }
-    this.selectedAction = ''; // this isn't resetting the combobox
+    this.selectedAction = 'A'; // this isn't resetting the combobox
     console.log(this.selectedAction);
+  }
+
+  addNewFile(newfile: FileItem){
+    this.files.push(newfile)
+    this.sorting()
+    this.showForm=false
   }
 }
