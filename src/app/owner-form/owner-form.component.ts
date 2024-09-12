@@ -4,6 +4,7 @@ import {
   FormBuilder,
   FormGroup,
   FormsModule,
+  ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
 import { FileItem, FileType } from '../../models/file.item.model';
@@ -11,7 +12,7 @@ import { FileItem, FileType } from '../../models/file.item.model';
 @Component({
   selector: 'app-owner-form',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './owner-form.component.html',
   styleUrl: './owner-form.component.css',
 })
@@ -25,7 +26,7 @@ export class OwnerFormComponent {
   constructor(private fb: FormBuilder) {
     this.fileForm = this.fb.group({
       name: ['', [Validators.required, Validators.maxLength(50)]],
-      creattion: ['', Validators.required],
+      creation: ['', Validators.required],
       type: [FileType.FILE, Validators.required],
     });
   }

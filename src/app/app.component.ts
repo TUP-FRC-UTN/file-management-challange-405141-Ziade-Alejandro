@@ -5,12 +5,18 @@ import { FileItem, FileType } from '../models/file.item.model';
 import { FILE_LIST } from '../data/file.storage';
 import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
+import { OwnerFormComponent } from './owner-form/owner-form.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, DatePipe, FormsModule, CommonModule],
+  imports: [
+    RouterOutlet,
+    DatePipe,
+    FormsModule,
+    CommonModule,
+    OwnerFormComponent,
+  ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
@@ -18,7 +24,7 @@ export class AppComponent {
   files: FileItem[] = FILE_LIST;
   selected: FileItem[] = [];
   selectedAction: string = '';
-  showForm:boolean=false
+  showForm: boolean = false;
 
   ngOnInit() {
     this.sorting();
@@ -90,16 +96,15 @@ export class AppComponent {
     if (this.selectedAction === 'delete') {
       this.dlete();
     } else if (this.selectedAction === 'add') {
-      
-      this.showForm=true
+      this.showForm = true;
     }
     this.selectedAction = 'A'; // this isn't resetting the combobox
     console.log(this.selectedAction);
   }
 
-  addNewFile(newfile: FileItem){
-    this.files.push(newfile)
-    this.sorting()
-    this.showForm=false
+  addNewFile(newfile: FileItem) {
+    this.files.push(newfile);
+    this.sorting();
+    this.showForm = false;
   }
 }

@@ -35,8 +35,8 @@
             }
         </tbody>
     </table>
-    <!-- @if (!showForm) {
-        <app-owner-form></app-owner-form>
-    } -->
-    
+    @if (showForm) {
+    <app-owner-form (fileCreated)="addNewFile($event)"></app-owner-form>
+    }
+
 </div>
