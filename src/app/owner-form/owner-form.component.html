@@ -1,0 +1,40 @@
+<div class="file-form">
+    <form [formGroup]="fileForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="name">Nombre</label>
+        <input
+          type="text"
+          id="name"
+          formControlName="name"
+          placeholder="Ingrese el nombre"
+          class="form-control"
+        />
+        <div *ngIf="fileForm.get('name')?.invalid && fileForm.get('name')?.touched">
+          <small class="text-danger" *ngIf="fileForm.get('name')?.errors?.['required']">Nombre es obligatorio</small>
+          <small class="text-danger" *ngIf="fileForm.get('name')?.errors?.['maxlength']">Máximo 50 caracteres</small>
+        </div>
+      </div>
+  
+      <div class="form-group">
+        <label for="creation">Fecha</label>
+        <input type="date" id="creation" formControlName="creation" class="form-control" />
+        <div *ngIf="fileForm.get('creation')?.invalid && fileForm.get('creation')?.touched">
+          <small class="text-danger">Fecha es obligatoria</small>
+        </div>
+      </div>
+  
+      <div class="form-group">
+        <label for="type">Tipo de Archivo</label>
+        <select id="type" formControlName="type" class="form-select">
+          <option [value]="FileType.FILE">Archivo</option>
+          <option [value]="FileType.FOLDER">Carpeta</option>
+        </select>
+        <div *ngIf="fileForm.get('type')?.invalid && fileForm.get('type')?.touched">
+          <small class="text-danger">Debe seleccionar el tipo de archivo</small>
+        </div>
+      </div>
+  
+      <button type="submit" class="btn btn-primary" [disabled]="fileForm.invalid">Guardar</button>
+    </form>
+  </div>
+  
